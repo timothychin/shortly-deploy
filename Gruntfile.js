@@ -2,7 +2,21 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: {
+        separator: ';'
+      },
+      client: {
+        // src: ['server.js', 'server-config.js', 'lib/request-handler.js'],
+        src: ['public/client/**/*.js'],
+        dest: 'public/dist/client.concat.js'
+      },
+      // lib: {
+      //   // src: ['server.js', 'server-config.js', 'lib/request-handler.js'],
+      //   src: ['public/lib/**/*.js'],
+      //   dest: 'public/dist/lib.concat.js'
+      // }
     },
 
     mochaTest: {
@@ -21,12 +35,20 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      client: {
+        files: {
+          'public/dist/client.min.js': ['public/dist/client.concat.js']
+        }
+      },
+      // lib: {
+      //   files: {
+      //     'public/dist/lib.min.js': ['public/dist/lib.concat.js']
+      //   }
+      // }
     },
 
     eslint: {
-      target: [
-        // Add list of files to lint here
-      ]
+      target: ['**/*.js']
     },
 
     cssmin: {
@@ -79,17 +101,21 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
   ]);
 
-  grunt.registerTask('upload', function(n) {
+  grunt.registerTask('deploy-production', [
+
+  ]);
+
+  grunt.registerTask('deploy', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run(['deploy-production']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
+  // grunt.registerTask('deploy', [
+  //   // add your deploy tasks here
+  // ]);
 
 
 };
