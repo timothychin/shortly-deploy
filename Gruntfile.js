@@ -75,6 +75,20 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+
+    githooks: {
+      options: {
+
+      },
+      all: {
+        options: {
+
+        },
+        'post-receive': {
+          tasks: ['concat', 'uglify']
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
