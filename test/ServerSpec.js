@@ -11,7 +11,7 @@ var Link = require('../app/models/link');
 // NOTE: these tests are designed for mongo!
 /////////////////////////////////////////////////////
 
-xdescribe('', function() {
+describe('', function() {
 
   beforeEach(function(done) {
     // Log out currently signed in user
@@ -62,10 +62,11 @@ xdescribe('', function() {
           .expect(200)
           .expect(function(res) {
             Link.findOne({'url': 'http://www.roflzoo.com/'})
-              .exec(function(err, link) {
-                if (err) { console.log(err); }
-                expect(link.url).to.equal('http://www.roflzoo.com/');
-              });
+            .then(function(err, link) {
+              if (err) { console.log(err); }
+              console.log(err, link);
+              expect(link.url).to.equal('http://www.roflzoo.com/');
+            });
           })
           .end(done);
       });
@@ -78,7 +79,7 @@ xdescribe('', function() {
           .expect(200)
           .expect(function(res) {
             Link.findOne({'url': 'http://www.roflzoo.com/'})
-              .exec(function(err, link) {
+              .then(function(err, link) {
                 if (err) { console.log(err); }
                 expect(link.title).to.equal('Funny pictures of animals, funny dog pictures');
               });
